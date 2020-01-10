@@ -9,11 +9,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -55,10 +53,11 @@ public class MainActivity extends AppCompatActivity {
 
                 /*
                         setting up the API
-                 */
+               */
                 URL url= new URL(urlString);
                 HttpURLConnection httpURLConnection = (HttpURLConnection)url.openConnection();
                 InputStream inputStream=httpURLConnection.getInputStream();
+
                 Scanner scanner=new Scanner(inputStream);
                 scanner.useDelimiter("\\A");
                 if(scanner.hasNext()){
@@ -91,7 +90,8 @@ public class MainActivity extends AppCompatActivity {
                 JSONObject root= new JSONObject(str);
                 JSONArray items=root.getJSONArray("items");
 
-                for(int i=0;i<items.length();i++){
+                for(int i=0;i<items.length();i++) {
+
                     JSONObject jsonObject=items.getJSONObject(i);
                     String login=jsonObject.getString("login");
                     Integer id=jsonObject.getInt("id");

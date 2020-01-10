@@ -14,6 +14,6 @@ public class UsersClass {
                 mnodeid=node_id;
                 mavatar=avatar_url;
                 mhtml=html_url;
-
         }
+
 }
