@@ -15,8 +15,7 @@
         android:text="GET DATA"
         android:background="@color/colorAccent"
         android:layout_gravity="center_horizontal"
-        android:layout_margin="20dp"
-        >
+        android:layout_margin="20dp">
 
     </Button>
 <!--    <TextView-->
@@ -29,7 +28,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:id="@+id/recycleView">
 
     </androidx.recyclerview.widget.RecyclerView>

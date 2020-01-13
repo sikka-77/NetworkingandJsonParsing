@@ -27,6 +27,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
         this.mData=data;
 
     }
+
     public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view ;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
@@ -42,25 +43,19 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
         holder.htmlText.setText(mData.get(position).getHtml());
         holder.urlText.setText(mData.get(position).getUrl());
 
+        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
 
+            final boolean isExpanded = position==mExpandedPosition;
+            @Override
+            public void onClick(View v) {
+                holder.details.setVisibility(View.VISIBLE);
 
-//        if (position == mExpandedPosition) {
-//            holder.llExpandArea.setVisibility(View.VISIBLE);
-//        } else {
-//            holder.llExpandArea.setVisibility(View.GONE);
-//        }
-
-//        final boolean isExpanded = position==mExpandedPosition;
-//        holder.details.setVisibility(isExpanded?View.VISIBLE:View.GONE);
-//        holder.mview.setActivated(isExpanded);
-//        holder.mview.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
 //                mExpandedPosition = isExpanded ? -1:position;
-//                TransitionManager.beginDelayedTransition(holder.details);
+//                //TransitionManager.beginDelayedTransition(holder.details);
 //                notifyDataSetChanged();
-//            }
-//        });
+            }
+        });
+
 
     }
 
@@ -69,41 +64,30 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
         return mData.size();
     }
 
-//    @Override
-//    public void onClick(View v) {
-//        RecyclerView.ViewHolder holder = (RecyclerView.ViewHolder) v.getTag();
-//        String theString = mData.get(holder.getAdapterPosition()).toString();
-//
-//        // Check for an expanded view, collapse if you find one
-//        if (mExpandedPosition >= 0) {
-//            int prev = mExpandedPosition;
-//            notifyItemChanged(prev);
-//        }
-//        // Set the current position to "expanded"
-//        mExpandedPosition = holder.getAdapterPosition();
-//        notifyItemChanged(mExpandedPosition);
-//
-//        Toast.makeText(mContext, "Clicked: "+theString, Toast.LENGTH_SHORT).show();
-//    }
-
 
     class UserHolder extends RecyclerView.ViewHolder {
 
         TextView loginText;
         TextView urlText;
         TextView htmlText;
-        public View mview;
         LinearLayout details;
-
+        LinearLayout mainLayout;
 
         public UserHolder(@NonNull View itemView) {
             super(itemView);
-            mview=itemView;
             loginText=itemView.findViewById(R.id.loginTextView);
             urlText=itemView.findViewById(R.id.urlTextView);
             htmlText=itemView.findViewById(R.id.htmlTextView);
-            details=itemView.findViewById(R.id.onclicklayout);
-
+            details=itemView.findViewById(R.id.llExpandArea);
+            mainLayout=itemView.findViewById(R.id.mainLayout);
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    int position = getLayoutPosition();
+//                    UsersClass user=mData.get(position);
+//                    Toast.makeText(mContext, "item clicked", Toast.LENGTH_SHORT).show();
+//                }
+//            });
         }
     }
 }

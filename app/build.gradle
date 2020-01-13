@@ -29,4 +29,5 @@ dependencies {
     implementation 'com.android.support:recyclerview-v7:29.1.0'
     implementation 'com.android.support:appcompat-v7:29.1.0'
     implementation 'com.android.support:design:29.1.0'
+    implementation("com.squareup.okhttp3:okhttp:4.3.1")
 }

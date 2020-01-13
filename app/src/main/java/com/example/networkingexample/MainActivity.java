@@ -1,19 +1,31 @@
 package com.example.networkingexample;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -28,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
     private EditText meditText;
     String finalUrl="https://api.github.com/search/users?q=bhavya";
     ArrayList<UsersClass> users;
+    RecyclerView recView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,10 +56,47 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         users=new ArrayList<>();
+        recView=(RecyclerView)findViewById(R.id.recycleView);
+
     }
-    private void updateTextView(){
-        DownloadTask downloadText=new DownloadTask();
-        downloadText.execute();
+    private void updateTextView() {
+//        DownloadTask downloadText=new DownloadTask();
+//        downloadText.execute();
+        try {
+            makeLibraryCall(finalUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    void makeLibraryCall(String url) throws IOException {
+        OkHttpClient client = new OkHttpClient();
+        Request request = new Request.Builder()
+                .url(url)
+                .build();
+         client.newCall(request).enqueue(new Callback() {
+            @Override
+            public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                Toast.makeText(MainActivity.this, "Cant fetch data", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                String result= response.body().string();
+                users=parseJson(result);
+                Log.e("my tag","count = " + users.size());
+                final UsersAdapter useradapter=new UsersAdapter(MainActivity.this,users);
+//                recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+//                recView.setAdapter(useradapter);
+                MainActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+                        recView.setAdapter(useradapter);
+                    }
+                });
+            }
+        });
     }
 
     class DownloadTask extends AsyncTask<String,Void,String> {
@@ -79,14 +130,13 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(s);
              users=parseJson(s);
             Log.e("my tag","count = " + users.size());
-//            mdislayTextView=(TextView)findViewById(R.id.displayText);
-//            mdislayTextView.setText(s);
-            RecyclerView recView=(RecyclerView)findViewById(R.id.recycleView);
-            UsersAdapter useradapter=new UsersAdapter(MainActivity.this,users);
+
+            final UsersAdapter useradapter=new UsersAdapter(MainActivity.this,users);
             recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
             recView.setAdapter(useradapter);
-
+            //recView.addOnItemTouchListener(new Rec);
         }
+
     }
 
     ArrayList<UsersClass> parseJson(String str){
