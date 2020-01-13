@@ -1,6 +1,8 @@
 package com.example.networkingexample;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     private Button mgetDataButton;
     private EditText meditText;
     String finalUrl="https://api.github.com/search/users?q=bhavya";
+    ArrayList<UsersClass> users;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
                 updateTextView();
             }
         });
+        users=new ArrayList<>();
     }
     private void updateTextView(){
         DownloadTask downloadText=new DownloadTask();
@@ -50,7 +54,6 @@ public class MainActivity extends AppCompatActivity {
         protected String doInBackground(String... strings) {
             String urlString=finalUrl;
             try {
-
                 /*
                         setting up the API
                */
@@ -74,10 +77,15 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String s) {
             super.onPostExecute(s);
-            ArrayList<UsersClass> users=parseJson(s);
+             users=parseJson(s);
             Log.e("my tag","count = " + users.size());
-            mdislayTextView=(TextView)findViewById(R.id.displayText);
-            mdislayTextView.setText(s);
+//            mdislayTextView=(TextView)findViewById(R.id.displayText);
+//            mdislayTextView.setText(s);
+            RecyclerView recView=(RecyclerView)findViewById(R.id.recycleView);
+            UsersAdapter useradapter=new UsersAdapter(MainActivity.this,users);
+            recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+            recView.setAdapter(useradapter);
+
         }
     }
 
@@ -105,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
         catch (JSONException e){
             e.printStackTrace();
         }
-
         return  usersList;
     }
 

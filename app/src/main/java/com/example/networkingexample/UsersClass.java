@@ -1,6 +1,8 @@
 package com.example.networkingexample;
 
-public class UsersClass {
+import androidx.recyclerview.widget.RecyclerView;
+
+public class UsersClass  {
 
         private String mlogin;
         private int mid;
@@ -15,5 +17,15 @@ public class UsersClass {
                 mavatar=avatar_url;
                 mhtml=html_url;
         }
+        public String getLogin() {
+            return mlogin;
+        }
+        public String getHtml(){
+            return mhtml;
+        }
+        public String getUrl() {
+            return mnodeid;
+        }
+
 
 }
