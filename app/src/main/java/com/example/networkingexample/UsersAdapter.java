@@ -43,18 +43,28 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
         holder.htmlText.setText(mData.get(position).getHtml());
         holder.urlText.setText(mData.get(position).getUrl());
 
-        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
-
-            final boolean isExpanded = position==mExpandedPosition;
+        /*
+                expanding the recycler view on touch.
+         */
+        final UserHolder vh=(UserHolder)holder;
+        final boolean isExpanded = position==mExpandedPosition;
+        holder.details.setVisibility((isExpanded) ? View.VISIBLE : View.GONE);
+        holder.itemView.setActivated(isExpanded);
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                holder.details.setVisibility(View.VISIBLE);
-
-//                mExpandedPosition = isExpanded ? -1:position;
-//                //TransitionManager.beginDelayedTransition(holder.details);
-//                notifyDataSetChanged();
+                mExpandedPosition = isExpanded ? RecyclerView.NO_POSITION : vh.getAdapterPosition();
+                notifyDataSetChanged();
             }
         });
+
+//        holder.mainLayout.setOnClickListener(new View.OnClickListener() {
+//
+//            @Override
+//            public void onClick(View v) {
+//                holder.details.setVisibility(View.VISIBLE);
+//            }
+//        });
 
 
     }
