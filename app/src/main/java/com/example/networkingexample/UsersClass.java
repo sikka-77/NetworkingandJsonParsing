@@ -10,6 +10,7 @@ public class UsersClass  {
         private String mavatar;
         private String mhtml;
         private boolean expanded;
+        private String mtext;
 
         public UsersClass(String login, int id, String node_id, String avatar_url, String html_url){
                 mlogin=login;
@@ -19,6 +20,10 @@ public class UsersClass  {
                 mhtml=html_url;
                 this.expanded=false;
         }
+        public UsersClass(String text) {
+                mtext=text;
+        }
+        public String getText(){return mtext;}
 
         public boolean isExpanded() {
             return expanded;

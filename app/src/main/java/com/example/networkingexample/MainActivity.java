@@ -2,8 +2,10 @@ package com.example.networkingexample;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.OkHttpClient;
@@ -31,6 +33,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MainActivity extends AppCompatActivity {
@@ -41,7 +44,8 @@ public class MainActivity extends AppCompatActivity {
     String finalUrl="https://api.github.com/search/users?q=bhavya";
     ArrayList<UsersClass> users;
     RecyclerView recView;
-
+    RecyclerView childRecView;
+    List<UsersClass> listnew;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +60,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         users=new ArrayList<>();
-        recView=(RecyclerView)findViewById(R.id.recycleView);
+        listnew=new ArrayList<>();
+        for(int i=0;i<200;i++)
+        {
+            listnew.add(new UsersClass("sample text "));
+        }
+        recView=findViewById(R.id.recycleView);
+        childRecView=findViewById(R.id.child_rec_view);
+        //childRecView.setLayoutManager(new LinearLayoutManager(this));
+        //final ChildListAdapter childListAdapter= new ChildListAdapter(MainActivity.this,listnew);
+        //childRecView.setLayoutManager(new StaggeredGridLayoutManager(1,0));
+        //childRecView.setAdapter(childListAdapter);
 
     }
     private void updateTextView() {
@@ -86,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
                 users=parseJson(result);
                 Log.e("my tag","count = " + users.size());
                 final UsersAdapter useradapter=new UsersAdapter(MainActivity.this,users);
+                final ChildListAdapter childListAdapter= new ChildListAdapter(MainActivity.this,listnew);
 //                recView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 //                recView.setAdapter(useradapter);
                 MainActivity.this.runOnUiThread(new Runnable() {

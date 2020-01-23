@@ -20,12 +20,12 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
 
     private Context mContext;
     private List<UsersClass> mData;
+    private List<UsersClass> listnew;
     int mExpandedPosition=-1;
 
     public UsersAdapter(Context context,List<UsersClass>data) {
         this.mContext=context;
         this.mData=data;
-
     }
 
     public UserHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -46,7 +46,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
         /*
                 expanding the recycler view on touch.
          */
-        final UserHolder vh=(UserHolder)holder;
+        final UserHolder vh=holder;
         final boolean isExpanded = position==mExpandedPosition;
         holder.details.setVisibility((isExpanded) ? View.VISIBLE : View.GONE);
         holder.itemView.setActivated(isExpanded);
@@ -65,7 +65,6 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
 //                holder.details.setVisibility(View.VISIBLE);
 //            }
 //        });
-
 
     }
 
@@ -90,14 +89,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.UserHolder>{
             htmlText=itemView.findViewById(R.id.htmlTextView);
             details=itemView.findViewById(R.id.llExpandArea);
             mainLayout=itemView.findViewById(R.id.mainLayout);
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    int position = getLayoutPosition();
-//                    UsersClass user=mData.get(position);
-//                    Toast.makeText(mContext, "item clicked", Toast.LENGTH_SHORT).show();
-//                }
-//            });
+
         }
     }
 }
